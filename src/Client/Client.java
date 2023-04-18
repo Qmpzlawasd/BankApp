@@ -1,35 +1,42 @@
 package Client;
 
 import Account.Account;
+import Bank.Bank;
 
-import java.sql.Date;
-import java.util.ArrayList;
+import java.time.LocalDate;
 import java.util.List;
 
 public class Client {
     protected String firstName;
     protected String lastName;
-    protected Date birthday;
+    protected LocalDate birthday;
     protected String email;
-    protected int creditScore;
+    protected int creditScore = 0;
+    protected LocalDate dateOpened;
     protected List<Account> accounts;
+    private Bank bank;
 
-    public void createAccount(Client asd){}
-    public void DeleteAccount(Client asd){}
+    public void addAccount(Account newAcc) {accounts.add(newAcc);}
 
+    public void deleteAccount(Account asd) {
+        accounts.remove(asd);
+    }
 
-
-
-
-    public Client(String firstName, String lastName, Date birthday, String email, int creditScore) {
+    public Client(String firstName, String lastName, LocalDate birthday, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthday = birthday;
         this.email = email;
-        this.creditScore = creditScore;
-        this.accounts = new ArrayList<>();
+        this.dateOpened = LocalDate.now();
     }
 
+    public Bank getBank() {
+        return bank;
+    }
+
+    public void setBank(Bank bank) {
+        this.bank = bank;
+    }
 
     public String getFirst_name() {
         return firstName;
@@ -47,11 +54,11 @@ public class Client {
         this.lastName = lastName;
     }
 
-    public Date getBirthday() {
+    public LocalDate getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
     }
 

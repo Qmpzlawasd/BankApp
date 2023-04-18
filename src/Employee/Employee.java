@@ -1,27 +1,27 @@
 package Employee;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Employee implements Comparable<Employee> {
     protected String firstName;
     protected String lastName;
-    protected Date birthday;
+    protected LocalDate birthday;
     protected String email;
     protected String department;
     protected int salary;
-    protected Date dateHired;
-    protected Date dateFired = null;
+    protected LocalDate dateHired;
+    protected LocalDate dateFired = null;
 
 
-    public Employee(String firstName, String lastName, Date birthday, String email, String department, int salary,
-                    Date dateHired) {
+    public Employee(String firstName, String lastName, LocalDate birthday, String email, String department, int salary,
+                    LocalDate dateHired) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthday = birthday;
         this.email = email;
         this.department = department;
         this.salary = salary;
-        this.dateHired= dateHired;
+        this.dateHired = dateHired;
     }
 
     @Override
@@ -40,8 +40,7 @@ public class Employee implements Comparable<Employee> {
     @Override
     public int compareTo(Employee anotherInstance) {
         if (this.dateHired.equals(anotherInstance.dateHired)) return 0;
-        if (this.dateHired.after(anotherInstance.dateHired)) return 1;
-        return -1;
+        return this.dateHired.compareTo(anotherInstance.dateHired);
     }
 
     public String getFirstName() {
@@ -60,11 +59,11 @@ public class Employee implements Comparable<Employee> {
         this.lastName = lastName;
     }
 
-    public Date getBirthday() {
+    public LocalDate getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
     }
 
@@ -92,19 +91,19 @@ public class Employee implements Comparable<Employee> {
         this.salary = salary;
     }
 
-    public Date getDateHired() {
+    public LocalDate getDateHired() {
         return dateHired;
     }
 
-    public void setDateHired(Date dateHired) {
+    public void setDateHired(LocalDate dateHired) {
         this.dateHired = dateHired;
     }
 
-    public Date getDateFired() {
+    public LocalDate getDateFired() {
         return dateFired;
     }
 
-    public void setDateFired(Date dateFired) {
+    public void setDateFired(LocalDate dateFired) {
         this.dateFired = dateFired;
     }
 

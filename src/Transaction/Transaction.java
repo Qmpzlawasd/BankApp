@@ -8,6 +8,15 @@ public class Transaction {
     private double amount;
     private String description;
 
+    public Transaction(Card src, Card dest, double amount, String description) {
+        this.src = src;
+        this.dest = dest;
+        this.amount = amount;
+        this.description = description;
+        //TODO: make abstract method to add or subtract funds.
+        // I cant do it alone here :((
+    }
+
     @Override
     public String toString() {
         return "Transaction{" +
