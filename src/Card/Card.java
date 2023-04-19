@@ -3,13 +3,12 @@ package Card;
 import Account.Account;
 import Exceptions.CardError;
 import Exceptions.TransactionError;
-import Transaction.Transaction;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Card {
+public sealed abstract class Card permits DebitCard, CreditCard {
     protected String number;
     protected LocalDate expirationDate;
     protected LocalDate disabledDate = null;
@@ -23,12 +22,18 @@ public abstract class Card {
     }
 
     public abstract void check(double amount) throws CardError;
+    public abstract void subtractFunds(double amount) ;
+    public abstract void addFunds(double amount);
 
     private String generateSecureCardNumber() {
         return String.format("%d %d %d %d", Math.round(Math.random() * (9999 - 1000 + 1) + 1000),
                 Math.round(Math.random() * (9999 - 1000 + 1) + 1000),
                 Math.round(Math.random() * (9999 - 1000 + 1) + 1000),
                 Math.round(Math.random() * (9999 - 1000 + 1) + 1000));
+    }
+
+    public List<Transaction> getTransactions() {
+        return transactions;
     }
 
     public Card(Account account) {
@@ -56,6 +61,69 @@ public abstract class Card {
         transactions.add(transaction);
     }
 
+    private static class Transaction {
+        private Card src;
+        private Card dest;
+        private double amount;
+        private String description;
+
+        public Transaction(Card src, Card dest, double amount, String description) {
+            this.src = src;
+            this.dest = dest;
+            this.amount = amount;
+            this.description = description;
+            completeTransaction(src,dest,amount);
+        }
+
+        private void completeTransaction(Card src, Card dest, double amount) {
+            src.subtractFunds(amount);
+            dest.addFunds(amount);
+        }
+
+        @Override
+        public String toString() {
+            return "Transaction{" +
+                    "src=" + src +
+                    ", dest=" + dest +
+                    ", amount=" + amount +
+                    ", description='" + description + '\'' +
+                    '}';
+        }
+
+        public Card getSrc() {
+            return src;
+        }
+
+        public void setSrc(Card src) {
+            this.src = src;
+        }
+
+        public Card getDest() {
+            return dest;
+        }
+
+        public void setDest(Card dest) {
+            this.dest = dest;
+        }
+
+        public double getAmount() {
+            return amount;
+        }
+
+        public void setAmount(double amount) {
+            this.amount = amount;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        public void setDescription(String description) {
+            this.description = description;
+        }
+
+
+    }
     public LocalDate getExpirationDate() {
         return expirationDate;
     }

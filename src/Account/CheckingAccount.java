@@ -1,14 +1,15 @@
 package Account;
 
 import Card.Card;
+import AI.AI;
 import Client.Client;
 import Exceptions.AccountError;
 import Exceptions.CardError;
 
 import java.util.List;
 
-public class CheckingAccount extends Account {
-    protected double fees;
+public final class CheckingAccount extends Account {
+    private double fees;
 
     public void check(double amount, Card card) throws AccountError {
         super.check();
@@ -20,9 +21,9 @@ public class CheckingAccount extends Account {
         }
     }
 
-    public CheckingAccount(Client client, double fees) {
+    public CheckingAccount(Client client) {
         super(client);
-        this.fees = fees;
+        this.fees = AI.calculateFees(client);
     }
 
     public double getFees() {

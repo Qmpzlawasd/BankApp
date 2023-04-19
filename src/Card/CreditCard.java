@@ -1,15 +1,25 @@
 package Card;
 
+import AI.AI;
 import Account.Account;
 import Exceptions.CardError;
 
-public class CreditCard extends Card {
+public final class CreditCard extends Card {
     private double moneySpent = 0;
     private double creditLimit;
 
-    public CreditCard(Account account, double creditLimit) {
+    public CreditCard(Account account) {
         super(account);
-        this.creditLimit = creditLimit;
+        this.creditLimit = AI.calculateCreditLimit(account.getClient());
+    }
+    @Override
+    public void subtractFunds(double amount) {
+        moneySpent += amount;
+    }
+
+    @Override
+    public void addFunds(double amount) {
+        moneySpent -= amount;
     }
     public void check(double amount) throws CardError {
 //        super.check();

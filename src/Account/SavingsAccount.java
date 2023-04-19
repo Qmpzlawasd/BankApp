@@ -1,15 +1,16 @@
 package Account;
 
 
+import AI.AI;
 import Card.Card;
 import Client.Client;
 import Exceptions.AccountError;
 import Exceptions.CardError;
 
-public class SavingsAccount extends Account {
+public final class SavingsAccount extends Account {
 
-    protected double withdrawalLimit;
-    protected double minimumBalance;
+    private double withdrawalLimit;
+    private double minimumBalance;
 
 
     public void check(double amount, Card card) throws AccountError {
@@ -26,10 +27,10 @@ public class SavingsAccount extends Account {
         }
     }
 
-    public SavingsAccount(Client client, double withdrawalLimit, double minimumBalance) {
+    public SavingsAccount(Client client) {
         super(client);
-        this.withdrawalLimit = withdrawalLimit;
-        this.minimumBalance = minimumBalance;
+        this.withdrawalLimit = AI.calculateWithdrawalLimit(client);
+        this.minimumBalance = AI.calculateMinimumBalance(client);
     }
 
     public double getWithdrawalLimit() {

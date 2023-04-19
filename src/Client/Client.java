@@ -4,6 +4,7 @@ import Account.Account;
 import Bank.Bank;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Client {
@@ -28,6 +29,7 @@ public class Client {
         this.birthday = birthday;
         this.email = email;
         this.dateOpened = LocalDate.now();
+        this.accounts = new ArrayList<>();
     }
 
     public Bank getBank() {

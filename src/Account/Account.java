@@ -9,7 +9,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Account {
+public sealed abstract class Account permits CheckingAccount, SavingsAccount{
     protected Client client;
     protected List<Card> cards;
     protected LocalDate dateCreated;
