@@ -18,6 +18,14 @@ public final class CreditCard extends Card {
     }
 
     @Override
+    public String toString() {
+        return "CreditCard{" +
+                "number='" + number + '\'' +
+                ", expirationDate=" + expirationDate +
+                '}';
+    }
+
+    @Override
     public void addFunds(double amount) {
         moneySpent -= amount;
     }

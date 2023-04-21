@@ -11,6 +11,15 @@ import java.util.List;
 public final class CheckingAccount extends Account {
     private double fees;
 
+    @Override
+    public String toString() {
+        return "CheckingAccount{" +
+                "client=" + client +
+                ", fees=" + fees +
+                ", dateCreated=" + dateCreated +
+                '}';
+    }
+
     public void check(double amount, Card card) throws AccountError {
         super.check();
         try {

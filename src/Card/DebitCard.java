@@ -9,6 +9,14 @@ public final class DebitCard extends Card {
     private double overdraftLimit; // max cat poti sa scoto in plus
 
 
+    @Override
+    public String toString() {
+        return "DebitCard{" +
+                "number='" + number + '\'' +
+                ", expirationDate=" + expirationDate +
+                '}';
+    }
+
     public DebitCard(Account account) {
         super(account);
         this.overdraftLimit = AI.calculateOverdraftLimit(account.getClient());

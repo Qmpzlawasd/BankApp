@@ -31,9 +31,12 @@ public class Client {
         this.dateOpened = LocalDate.now();
         this.accounts = new ArrayList<>();
     }
-
     public Bank getBank() {
         return bank;
+    }
+
+    public List<Account> getAccounts() {
+        return accounts;
     }
 
     public void setBank(Bank bank) {
@@ -42,6 +45,14 @@ public class Client {
 
     public String getFirst_name() {
         return firstName;
+    }
+
+    @Override
+    public String toString() {
+        return "Client{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                '}';
     }
 
     public void setFirst_name(String firstName) {

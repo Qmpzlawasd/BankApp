@@ -13,6 +13,16 @@ public final class SavingsAccount extends Account {
     private double minimumBalance;
 
 
+    @Override
+    public String toString() {
+        return "SavingsAccount{" +
+                "client=" + client +
+                ", withdrawalLimit=" + withdrawalLimit +
+                ", minimumBalance=" + minimumBalance +
+                ", dateCreated=" + dateCreated +
+                '}';
+    }
+
     public void check(double amount, Card card) throws AccountError {
         super.check();
         if (withdrawalLimit < amount) {

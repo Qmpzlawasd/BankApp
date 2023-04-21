@@ -13,15 +13,14 @@ public class Employee implements Comparable<Employee> {
     protected LocalDate dateFired = null;
 
 
-    public Employee(String firstName, String lastName, LocalDate birthday, String email, String department, int salary,
-                    LocalDate dateHired) {
+    public Employee(String firstName, String lastName, LocalDate birthday, String email, String department, int salary) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthday = birthday;
         this.email = email;
         this.department = department;
         this.salary = salary;
-        this.dateHired = dateHired;
+        this.dateHired = LocalDate.now();
     }
 
     @Override

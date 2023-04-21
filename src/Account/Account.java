@@ -3,7 +3,6 @@ package Account;
 import Card.Card;
 import Client.Client;
 import Exceptions.AccountError;
-import Exceptions.AlreadyExists;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -15,6 +14,9 @@ public sealed abstract class Account permits CheckingAccount, SavingsAccount{
     protected LocalDate dateCreated;
     protected LocalDate dateDeleted = null;
 
+    public List<Card> getCards() {
+        return cards;
+    }
 
     public Account(Client client) {
         this.client = client;
@@ -22,10 +24,7 @@ public sealed abstract class Account permits CheckingAccount, SavingsAccount{
         this.dateCreated = LocalDate.now();
     }
 
-    public void addCard(Card newCard) throws AlreadyExists {
-        if (cards.stream().anyMatch(card -> card.getNumber().equals(newCard.getNumber()))) {
-            throw new AlreadyExists("cardul deja exista in cont");
-        }
+    public void addCard(Card newCard) {
         cards.add(newCard);
     }
 
