@@ -48,7 +48,6 @@ public class Main {
                 email: string""");
     }
 
-
     private static int chooseAAA(Scanner scanner, List<String> list) {
         System.out.println("Choose");
         int index = 0;
@@ -61,14 +60,14 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         Service service = Service.getInstance();
-        Path path = Paths.get("");
+        Path path = Paths.get("/home/stefan/IdeaProjects/BankApp/src/.in");
         Scanner scanner = new Scanner(path);
 //        Scanner scanner = new Scanner(System.in);
 
         boolean quit = false;
         while (!quit) {
-
-//            System.out.println(Service.meniu);
+            System.out.println(Service.meniu);
+            System.out.print(">");
             int choice = Integer.parseInt(scanner.nextLine());
             switch (choice) {
                 case 1 -> { // hire someone
@@ -103,12 +102,12 @@ public class Main {
                             service.getListClients(chosenBank).stream().map(Object::toString).toList()));
                     int accountType = chooseAAA(scanner, Arrays.asList("Checking", "Savings"));
                     if (accountType == 1) {
-                        client.addAccount(new SavingsAccount(client));
+                        service.addAccount(client, new SavingsAccount(client));
                     } else
-                        client.addAccount(new CheckingAccount(client));
+                        service.addAccount(client, new CheckingAccount(client));
                     System.out.println("done");
                 }
-                case 14 -> { // print all accounts from client
+                case 4 -> {// Add Card
                     if (banks.isEmpty()) {
                         break;
                     }
@@ -118,32 +117,17 @@ public class Main {
                     }
                     Client client = service.getListClients(chosenBank).get(chooseAAA(scanner,
                             service.getListClients(chosenBank).stream().map(Object::toString).toList()));
-                    client.getAccounts().forEach(System.out::println);
-
-
-                }
-                case 4 -> {
-//                    Add Card
-                    if (banks.isEmpty()) {
-                        break;
-                    }
-                    Bank chosenBank = banks.get(chooseAAA(scanner, banks.stream().map(bank -> bank.toString()).toList()));
-                    if (service.getListClients(chosenBank).isEmpty()) {
-                        break;
-                    }
-                    Client client = service.getListClients(chosenBank).get(chooseAAA(scanner,
-                            service.getListClients(chosenBank).stream().map(Object::toString).toList()));
-                    Account account = client.getAccounts().get(chooseAAA(scanner,
-                            client.getAccounts().stream().map(Object::toString).toList()));
+                    Account account = service.getAccounts(client).get(chooseAAA(scanner,
+                            service.getAccounts(client).stream().map(Object::toString).toList()));
                     int cardType = chooseAAA(scanner, Arrays.asList("Debit", "Credit"));
                     if (cardType == 1) {
-                        account.addCard(new CreditCard(account));
+                        service.addCard(account, new CreditCard(account));
                     } else
-                        account.addCard(new DebitCard(account));
+                        service.addCard(account, new DebitCard(account));
                     System.out.println("done");
 
                 }
-                case 15 -> { // list al cards from account
+                case 5 -> { // Check balance
                     if (banks.isEmpty()) {
                         break;
                     }
@@ -153,30 +137,16 @@ public class Main {
                     }
                     Client client = service.getListClients(chosenBank).get(chooseAAA(scanner,
                             service.getListClients(chosenBank).stream().map(Object::toString).toList()));
-                    Account account = client.getAccounts().get(chooseAAA(scanner,
-                            client.getAccounts().stream().map(Object::toString).toList()));
-                    account.getCards().forEach(System.out::println);
-                }
-                case 5 -> {
-                    if (banks.isEmpty()) {
-                        break;
-                    }
-                    Bank chosenBank = banks.get(chooseAAA(scanner, banks.stream().map(bank -> bank.toString()).toList()));
-                    if (service.getListClients(chosenBank).isEmpty()) {
-                        break;
-                    }
-                    Client client = service.getListClients(chosenBank).get(chooseAAA(scanner,
-                            service.getListClients(chosenBank).stream().map(Object::toString).toList()));
-                    Account account = client.getAccounts().get(chooseAAA(scanner,
-                            client.getAccounts().stream().map(Object::toString).toList()));
-                    Card card = account.getCards().get(chooseAAA(scanner,
-                            account.getCards().stream().map(Object::toString).toList()));
+                    Account account = service.getAccounts(client).get(chooseAAA(scanner,
+                            service.getAccounts(client).stream().map(Object::toString).toList()));
+                    Card card = service.getCards(account).get(chooseAAA(scanner,
+                            service.getCards(account).stream().map(Object::toString).toList()));
                     if (card instanceof DebitCard d) {
                         System.out.println(d.getBalance());
                     } else if (card instanceof CreditCard c)
                         System.out.println(c.getMoneySpent());
                 }
-                case 7 -> {
+                case 7 -> { // make transaction
                     System.out.println("I need two cards.");
                     System.out.println("Sender:");
                     if (banks.isEmpty()) {
@@ -189,10 +159,10 @@ public class Main {
                     }
                     Client sender = service.getListClients(chosenBankSender).get(chooseAAA(scanner,
                             service.getListClients(chosenBankSender).stream().map(Object::toString).toList()));
-                    Account accountSender = sender.getAccounts().get(chooseAAA(scanner,
-                            sender.getAccounts().stream().map(Object::toString).toList()));
-                    Card cardSender = accountSender.getCards().get(chooseAAA(scanner,
-                            accountSender.getCards().stream().map(Object::toString).toList()));
+                    Account accountSender = service.getAccounts(sender).get(chooseAAA(scanner,
+                            service.getAccounts(sender).stream().map(Object::toString).toList()));
+                    Card cardSender = service.getCards(accountSender).get(chooseAAA(scanner,
+                            service.getCards(accountSender).stream().map(Object::toString).toList()));
                     System.out.println("Receiver:");
                     Bank chosenBankReceiver = banks.get(chooseAAA(scanner,
                             banks.stream().map(bank -> bank.toString()).toList()));
@@ -202,12 +172,12 @@ public class Main {
                     Client receiver = service.getListClients(chosenBankReceiver).get(chooseAAA(scanner,
                             service.getListClients(chosenBankReceiver).stream().map(Object::toString).toList()));
                     Account accountReceiver = receiver.getAccounts().get(chooseAAA(scanner,
-                            receiver.getAccounts().stream().map(Object::toString).toList()));
+                            service.getAccounts(receiver).stream().map(Object::toString).toList()));
                     Card cardReceiver = accountReceiver.getCards().get(chooseAAA(scanner,
-                            accountReceiver.getCards().stream().map(Object::toString).toList()));
+                            service.getCards(accountReceiver).stream().map(Object::toString).toList()));
                     try {
                         System.out.println("Enter the amount and a description:");
-                        cardSender.makeTransaction(cardReceiver, Double.parseDouble(scanner.nextLine()),
+                        service.makeTransaction(cardSender,cardReceiver, Double.parseDouble(scanner.nextLine()),
                                 scanner.nextLine().trim());
 
                     } catch (CardError e) {
@@ -222,21 +192,14 @@ public class Main {
 
                         System.out.println(e.getMessage());
                     }
-                    System.out.println("done");
-                    System.out.println(cardSender.getTransactions().get(0));
-
                 }
                 case 9 -> { //add bank
                     bankNeededData();
                     banks.add(new Bank(scanner.nextLine()));
-
                 }
                 case 10 -> { //exit
                     System.out.println("Ok...");
                     quit = true;
-                }
-                default -> {
-                    System.out.println("Invalid command");
                 }
                 case 11 -> {// print employees form bank
                     if (banks.isEmpty()) {
@@ -267,15 +230,40 @@ public class Main {
                     service.getListClients(chosenBank).forEach(System.out::println);
 
                 }
+                case 14 -> { // print all accounts from client
+                    if (banks.isEmpty()) {
+                        break;
+                    }
+                    Bank chosenBank = banks.get(chooseAAA(scanner, banks.stream().map(bank -> bank.toString()).toList()));
+                    if (service.getListClients(chosenBank).isEmpty()) {
+                        break;
+                    }
+                    Client client = service.getListClients(chosenBank).get(chooseAAA(scanner,
+                            service.getListClients(chosenBank).stream().map(Object::toString).toList()));
+                    service.getAccounts(client).forEach(System.out::println);
+
+
+                }
+                case 15 -> { // list all cards from account
+                    if (banks.isEmpty()) {
+                        break;
+                    }
+                    Bank chosenBank = banks.get(chooseAAA(scanner, banks.stream().map(bank -> bank.toString()).toList()));
+                    if (service.getListClients(chosenBank).isEmpty()) {
+                        break;
+                    }
+                    Client client = service.getListClients(chosenBank).get(chooseAAA(scanner,
+                            service.getListClients(chosenBank).stream().map(Object::toString).toList()));
+                    Account account = service.getAccounts(client).get(chooseAAA(scanner,
+                            service.getAccounts(client).stream().map(Object::toString).toList()));
+                    service.getCards(account).forEach(System.out::println);
+                }
+                default -> {
+                    System.out.println("Invalid command");
+                }
 
             }
         }
-
-        Bank aia = new Bank("Cogealac");
-        Client lefter = new Client("lefter", "adlsk", LocalDate.of(2002, 4, 16), "sdfsdf@dff.com");
-        Client adela = new Client("adela", "sadasd", LocalDate.of(2002, 6, 25), "sdfsdf@dff.com");
-
-
         scanner.close();
     }
 }
