@@ -1,5 +1,7 @@
 package Employee;
 
+import Bank.Bank;
+
 import java.time.LocalDate;
 
 public class Employee implements Comparable<Employee> {
@@ -11,6 +13,7 @@ public class Employee implements Comparable<Employee> {
     protected int salary;
     protected LocalDate dateHired;
     protected LocalDate dateFired = null;
+    private Bank bank;
 
 
     public Employee(String firstName, String lastName, LocalDate birthday, String email, String department, int salary) {
@@ -78,6 +81,14 @@ public class Employee implements Comparable<Employee> {
         return department;
     }
 
+    public Bank getBank() {
+        return bank;
+    }
+
+    public void setBank(Bank bank) {
+        this.bank = bank;
+    }
+
     public void setDepartment(String department) {
         this.department = department;
     }
@@ -105,6 +116,5 @@ public class Employee implements Comparable<Employee> {
     public void setDateFired(LocalDate dateFired) {
         this.dateFired = dateFired;
     }
-
 
 }

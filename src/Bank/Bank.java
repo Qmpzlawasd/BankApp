@@ -21,6 +21,7 @@ public class Bank {
     }
 
     public void hireSomeone(Employee emp) {
+        emp.setBank(this);
         employees.add(emp);
         Collections.sort(employees);
     }
