@@ -1,8 +1,8 @@
-package Card;
+package model.card;
 
-import Account.Account;
-import Exceptions.CardError;
-import Exceptions.TransactionError;
+import model.account.Account;
+import exceptions.CardError;
+import exceptions.TransactionError;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -17,12 +17,14 @@ public sealed abstract class Card permits DebitCard, CreditCard {
 
     protected void check() throws CardError {
         if (disabledDate != null || LocalDate.now().isAfter(expirationDate)) {
-            throw new CardError("the card is inactive");
+            throw new CardError("the model.card is inactive");
         }
     }
 
     public abstract void check(double amount) throws CardError;
-    public abstract void subtractFunds(double amount) ;
+
+    public abstract void subtractFunds(double amount);
+
     public abstract void addFunds(double amount);
 
     private String generateSecureCardNumber() {
@@ -72,7 +74,7 @@ public sealed abstract class Card permits DebitCard, CreditCard {
             this.dest = dest;
             this.amount = amount;
             this.description = description;
-            completeTransaction(src,dest,amount);
+            completeTransaction(src, dest, amount);
         }
 
         private void completeTransaction(Card src, Card dest, double amount) {
@@ -124,6 +126,7 @@ public sealed abstract class Card permits DebitCard, CreditCard {
 
 
     }
+
     public LocalDate getExpirationDate() {
         return expirationDate;
     }

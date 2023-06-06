@@ -1,4 +1,4 @@
-package Exceptions;
+package exceptions;
 
 public class TransactionError extends Exception {
     public TransactionError(String message) {

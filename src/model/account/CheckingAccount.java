@@ -1,11 +1,13 @@
-package Account;
+package model.account;
 
-import Card.Card;
-import AI.AI;
-import Client.Client;
-import Exceptions.AccountError;
-import Exceptions.CardError;
+import model.card.Card;
+import model.AI;
+import model.Client;
+import exceptions.AccountError;
+import exceptions.CardError;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 
 public final class CheckingAccount extends Account {
@@ -14,7 +16,7 @@ public final class CheckingAccount extends Account {
     @Override
     public String toString() {
         return "CheckingAccount{" +
-                "client=" + client +
+                "model.client=" + client +
                 ", fees=" + fees +
                 ", dateCreated=" + dateCreated +
                 '}';

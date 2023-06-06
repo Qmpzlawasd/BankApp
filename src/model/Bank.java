@@ -1,9 +1,12 @@
-package Bank;
+package model;
 
-import Employee.Employee;
-import Client.Client;
-import Exceptions.AlreadyExists;
+import model.Employee;
+import database.LogDatabase;
+import model.Client;
+import exceptions.AlreadyExists;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -12,12 +15,12 @@ public class Bank {
 
     private String locatie;
     private final List<Employee> employees;  // soreted
-    private final Set<Client> clients;
+    private final List<Client> clients;
 
     public Bank(String locatie) {
         this.locatie = locatie;
         employees = new ArrayList<>();
-        clients = new HashSet<>();
+        clients =  new ArrayList<>();
     }
 
     public void hireSomeone(Employee emp) {
@@ -36,7 +39,7 @@ public class Bank {
 
     public void addClient(Client newClient) throws AlreadyExists {
         if (clients.stream().anyMatch(cli -> cli.getLast_name().equals(newClient.getLast_name()) && cli.getFirst_name().equals(newClient.getFirst_name()))) {
-            throw new AlreadyExists("The client is already registered at this bank.");
+            throw new AlreadyExists("The model.client is already registered at this model.bank.");
         }
         newClient.setBank(this);
         clients.add(newClient);
@@ -48,9 +51,10 @@ public class Bank {
     }
 
 
-    public Set<Client> getClients() {
+    public List<Client> getClients() {
         return clients;
     }
+
     @Override
     public String toString() {
         return "Bank{" +

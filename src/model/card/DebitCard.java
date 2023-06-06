@@ -1,8 +1,11 @@
-package Card;
+package model.card;
 
-import AI.AI;
-import Account.Account;
-import Exceptions.CardError;
+import model.AI;
+import model.account.Account;
+import exceptions.CardError;
+
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 public final class DebitCard extends Card {
     private double balance = 0;
@@ -20,6 +23,7 @@ public final class DebitCard extends Card {
     public DebitCard(Account account) {
         super(account);
         this.overdraftLimit = AI.calculateOverdraftLimit(account.getClient());
+
     }
 
     @Override

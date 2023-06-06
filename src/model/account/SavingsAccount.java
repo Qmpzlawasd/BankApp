@@ -1,11 +1,14 @@
-package Account;
+package model.account;
 
 
-import AI.AI;
-import Card.Card;
-import Client.Client;
-import Exceptions.AccountError;
-import Exceptions.CardError;
+import model.AI;
+import model.card.Card;
+import model.Client;
+import exceptions.AccountError;
+import exceptions.CardError;
+
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 public final class SavingsAccount extends Account {
 
@@ -16,7 +19,7 @@ public final class SavingsAccount extends Account {
     @Override
     public String toString() {
         return "SavingsAccount{" +
-                "client=" + client +
+                "model.client=" + client +
                 ", withdrawalLimit=" + withdrawalLimit +
                 ", minimumBalance=" + minimumBalance +
                 ", dateCreated=" + dateCreated +
@@ -41,6 +44,7 @@ public final class SavingsAccount extends Account {
         super(client);
         this.withdrawalLimit = AI.calculateWithdrawalLimit(client);
         this.minimumBalance = AI.calculateMinimumBalance(client);
+
     }
 
     public double getWithdrawalLimit() {

@@ -1,14 +1,15 @@
-package Account;
+package model.account;
 
-import Card.Card;
-import Client.Client;
-import Exceptions.AccountError;
+import model.card.Card;
+import model.Client;
+import exceptions.AccountError;
+
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public sealed abstract class Account permits CheckingAccount, SavingsAccount{
+public sealed abstract class Account permits CheckingAccount, SavingsAccount {
     protected Client client;
     protected List<Card> cards;
     protected LocalDate dateCreated;
@@ -30,10 +31,10 @@ public sealed abstract class Account permits CheckingAccount, SavingsAccount{
 
     public void check() throws AccountError {
         if (dateDeleted != null)
-            throw new AccountError("The account is deleted.");
+            throw new AccountError("The model.account is deleted.");
     }
 
-    public abstract void check(double amount,Card card) throws AccountError;
+    public abstract void check(double amount, Card card) throws AccountError;
 
     public Client getClient() {
         return client;

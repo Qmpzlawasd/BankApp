@@ -1,6 +1,4 @@
-package Employee;
-
-import Bank.Bank;
+package model;
 
 import java.time.LocalDate;
 
@@ -16,7 +14,8 @@ public class Employee implements Comparable<Employee> {
     private Bank bank;
 
 
-    public Employee(String firstName, String lastName, LocalDate birthday, String email, String department, int salary) {
+    public Employee(String firstName, String lastName, LocalDate birthday, String email, String department,
+                    int salary) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthday = birthday;
@@ -24,6 +23,8 @@ public class Employee implements Comparable<Employee> {
         this.department = department;
         this.salary = salary;
         this.dateHired = LocalDate.now();
+
+
     }
 
     @Override
@@ -36,6 +37,7 @@ public class Employee implements Comparable<Employee> {
                 ", department='" + department + '\'' +
                 ", salary=" + salary +
                 ", dateHired=" + dateHired +
+                ", dateFired=" + dateFired +
                 '}';
     }
 
@@ -105,10 +107,6 @@ public class Employee implements Comparable<Employee> {
         return dateHired;
     }
 
-    public void setDateHired(LocalDate dateHired) {
-        this.dateHired = dateHired;
-    }
-
     public LocalDate getDateFired() {
         return dateFired;
     }
@@ -117,4 +115,7 @@ public class Employee implements Comparable<Employee> {
         this.dateFired = dateFired;
     }
 
+    public void setDateHired(LocalDate dateHired) {
+        this.dateHired = dateHired;
+    }
 }

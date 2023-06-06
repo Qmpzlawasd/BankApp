@@ -1,8 +1,11 @@
-package Client;
+package model;
 
-import Account.Account;
-import Bank.Bank;
+import database.LogDatabase;
 
+import model.account.Account;
+
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +20,9 @@ public class Client {
     protected List<Account> accounts;
     private Bank bank;
 
-    public void addAccount(Account newAcc) {accounts.add(newAcc);}
+    public void addAccount(Account newAcc) {
+        accounts.add(newAcc);
+    }
 
     public void deleteAccount(Account asd) {
         accounts.remove(asd);
@@ -30,7 +35,10 @@ public class Client {
         this.email = email;
         this.dateOpened = LocalDate.now();
         this.accounts = new ArrayList<>();
+
+
     }
+
     public Bank getBank() {
         return bank;
     }
