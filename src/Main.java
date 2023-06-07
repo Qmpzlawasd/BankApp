@@ -219,8 +219,9 @@ public class Main {
                     if (banks.isEmpty()) {
                         break;
                     }
-                    Bank chosenBank = banks.get(chooseAAA(scanner, banks.stream().map(Bank::toString).toList()));
-                    service.getListEmployees(chosenBank).forEach(System.out::println);
+                    int bankIndex = chooseAAA(scanner, banks.stream().map(Bank::toString).toList());
+                    Bank chosenBank = banks.get(bankIndex);
+                    service.getListEmployeesDatabase(chosenBank,bankIndex).forEach(System.out::println);
 
 
                 }
@@ -243,8 +244,9 @@ public class Main {
                     if (banks.isEmpty()) {
                         break;
                     }
-                    Bank chosenBank = banks.get(chooseAAA(scanner, banks.stream().map(Bank::toString).toList()));
-                    service.getListClients(chosenBank).forEach(System.out::println);
+                    int bankIndex = chooseAAA(scanner, banks.stream().map(Bank::toString).toList());
+                    Bank chosenBank = banks.get(bankIndex);
+                    service.getListClientsDatabase(chosenBank ,bankIndex ).forEach(System.out::println);
 
                 }
                 case 14 -> { // print all accounts from model.client

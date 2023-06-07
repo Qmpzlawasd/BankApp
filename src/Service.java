@@ -12,8 +12,10 @@ import model.card.CreditCard;
 import model.card.DebitCard;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public final class Service extends LogDatabase {
@@ -36,6 +38,7 @@ public final class Service extends LogDatabase {
             "14.Get all accounts from Client\n" +
             "15.List all cards from Account\n" +
             "16.Update client email\n";
+
     //CREATE
     public CheckingAccount makeCheckingAccount(Client client) {
         CheckingAccount asd = new CheckingAccount(client);
@@ -219,12 +222,57 @@ public final class Service extends LogDatabase {
     }
 
     //READ
-    public List<Card> getCards(Account account) {
-        return account.getCards();
+
+    public List<Employee> getListEmployeesDatabase(Bank bank, int bankIndex) { // TODO: Do this
+        List<Employee> employees = new ArrayList<>();
+        try {
+
+            PreparedStatement pst = null;
+            ResultSet rs = null;
+
+            pst = conn.prepareStatement("SELECT * FROM employee WHERE bank = ?");
+            pst.setInt(1, bankIndex);
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                    employees.add(new Employee(rs.getString("firstName"), rs.getString("lastName"),
+                            LocalDate.parse(rs.getString("birthday")), rs.getString("email"), rs.getString("department"), rs.getInt("salary")));
+
+                }
+            } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return employees;
+    }
+
+    public List<Client> getListClientsDatabase(Bank bank,int bankIndex) { // TODO: Do this
+
+        List<Client> clients = new ArrayList<>();
+        try {
+
+            PreparedStatement pst = null;
+            ResultSet rs = null;
+
+            pst = conn.prepareStatement("SELECT * FROM client WHERE bank = ?");
+            pst.setInt(1, bankIndex);
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                clients.add(new Client(rs.getString("firstName"), rs.getString("lastName"),
+                        LocalDate.parse(rs.getString("birthday")), rs.getString("email")));
+
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return clients;
     }
 
     public List<Account> getAccounts(Client client) { // TODO: Do this
         return client.getAccounts();
+    }
+    public List<Card> getCards(Account account) {
+        return account.getCards();
     }
 
     public List<Employee> getListEmployees(Bank bank) { // TODO: Do this
@@ -232,21 +280,8 @@ public final class Service extends LogDatabase {
     }
 
     public List<Client> getListClients(Bank bank) { // TODO: Do this
-
         return bank.getClients();
     }
-//    public List<Account> getAccounts(Client client) { // TODO: Do this
-//
-//        return client.getAccounts();
-//    }
-//
-//    public List<Employee> getListEmployees(Bank bank) { // TODO: Do this
-//        return bank.getCurrentEmployees();
-//    }
-//
-//    public List<Client> getListClients(Bank bank) { // TODO: Do this
-//        return bank.getClients();
-//    }
 
     //UPDATE
     void updateClientEmail(Client client, String newEmail) {
